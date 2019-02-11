@@ -1,4 +1,8 @@
 #!/bin/sh
 
-sudo rm /etc/resolver/slack.com
-sudo rm /etc/resolver/twitter.com
+SCRIPTPATH=$(dirname $0)
+
+cat ${SCRIPTPATH}/../target_domains | while read domain
+do
+  sudo rm "/etc/resolver/$domain"
+done
