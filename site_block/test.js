@@ -1,4 +1,11 @@
 const CDP = require('chrome-remote-interface');
+const fs = require('fs');
+const path = require('path');
+
+
+function readDomains() {
+  return fs.readFileSync(path.resolve('../target_domains'), {encoding: 'utf8'});
+}
 
 async function example() {
   let client;
@@ -6,16 +13,20 @@ async function example() {
     // connect to endpoint
     client = await CDP();
     // extract domains
-    const {Network, Page} = client;
+    const {Network, Page, DOM, Runtime} = client;
     // setup handlers
     Network.requestWillBeSent((params) => {
-      console.log(params.request.url);
-  });
+      // console.log(params.request.url);
+    });
     // enable events then start!
     await Network.enable();
     await Page.enable();
     await Page.navigate({url: 'chrome-extension://pfglnpdpgmecffbejlfgpnebopinlclj/html/options.html'});
     await Page.loadEventFired();
+
+    let domains = 'twitter.com\\nslack.com';
+
+    await Runtime.evaluate({expression: 'document.querySelector(\'#rules\').value = \'' + domains + '\'; save_options();'});
   } catch (err) {
     console.error(err);
   } finally {
@@ -25,4 +36,5 @@ async function example() {
   }
 }
 
-example();
+console.log(readDomains());
+// example();
