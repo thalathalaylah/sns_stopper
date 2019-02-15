@@ -1,6 +1,9 @@
 #!/bin/sh
 
 SCRIPTPATH=$(dirname $0)
+if [ ! -d /etc/resolver ]; then
+  sudo mkdir /etc/resolver
+fi
 
 cat ${SCRIPTPATH}/../target_domains | while read domain
 do
