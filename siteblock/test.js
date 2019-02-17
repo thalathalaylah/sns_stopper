@@ -24,7 +24,8 @@ async function example() {
     await Page.navigate({url: 'chrome-extension://mackolfpcjdnngofjhoklekgeloifkom/html/options.html'});
     await Page.loadEventFired();
 
-    let domains = 'twitter.com\\nslack.com';
+    let domains = readDomains().replace(/\n/g, '\\n');
+    console.log(domains);
 
     await Runtime.evaluate({expression: 'document.querySelector(\'#rules\').value = \'' + domains + '\'; save_options();'});
   } catch (err) {
@@ -36,5 +37,4 @@ async function example() {
   }
 }
 
-console.log(readDomains());
-// example();
+example();
