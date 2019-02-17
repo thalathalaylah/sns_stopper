@@ -2,12 +2,15 @@ const CDP = require('chrome-remote-interface');
 const fs = require('fs');
 const path = require('path');
 
+function toBoolean(booleanStr) {
+  return booleanStr.toLowerCase() === "true";
+}
 
 function readDomains() {
   return fs.readFileSync(path.resolve('../target_domains'), {encoding: 'utf8'});
 }
 
-async function example() {
+async function example(forbid) {
   let client;
   try {
     // connect to endpoint
@@ -24,7 +27,7 @@ async function example() {
     await Page.navigate({url: 'chrome-extension://mackolfpcjdnngofjhoklekgeloifkom/html/options.html'});
     await Page.loadEventFired();
 
-    let domains = readDomains().replace(/\n/g, '\\n');
+    let domains = forbid ? '' : readDomains().replace(/\n/g, '\\n');
     console.log(domains);
 
     await Runtime.evaluate({expression: 'document.querySelector(\'#rules\').value = \'' + domains + '\'; save_options();'});
@@ -37,4 +40,4 @@ async function example() {
   }
 }
 
-example();
+example(toBoolean(process.argv[2]));
