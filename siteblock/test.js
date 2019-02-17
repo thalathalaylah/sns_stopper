@@ -21,7 +21,7 @@ async function example() {
     // enable events then start!
     await Network.enable();
     await Page.enable();
-    await Page.navigate({url: 'chrome-extension://pfglnpdpgmecffbejlfgpnebopinlclj/html/options.html'});
+    await Page.navigate({url: 'chrome-extension://mackolfpcjdnngofjhoklekgeloifkom/html/options.html'});
     await Page.loadEventFired();
 
     let domains = 'twitter.com\\nslack.com';
