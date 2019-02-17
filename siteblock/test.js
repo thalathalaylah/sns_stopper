@@ -10,6 +10,10 @@ function readDomains() {
   return fs.readFileSync(path.resolve('../target_domains'), {encoding: 'utf8'});
 }
 
+function readExtensionUrl() {
+  return fs.readFileSync(path.resolve('./extension_url'), {encoding: 'utf8'});
+}
+
 async function example(forbid) {
   let client;
   try {
@@ -24,7 +28,7 @@ async function example(forbid) {
     // enable events then start!
     await Network.enable();
     await Page.enable();
-    await Page.navigate({url: 'chrome-extension://mackolfpcjdnngofjhoklekgeloifkom/html/options.html'});
+    await Page.navigate({url: readExtensionUrl().replace(/\n/g, '')});
     await Page.loadEventFired();
 
     let domains = forbid ? '' : readDomains().replace(/\n/g, '\\n');
