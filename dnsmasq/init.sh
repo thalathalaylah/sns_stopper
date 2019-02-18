@@ -9,7 +9,7 @@ fi
 
 result=""
 
-data=`cat ${SCRIPTPATH}/../target_domains`
+data=$(cat ${SCRIPTPATH}/../settings.json | jq -r .targetDomains[])
 while read line
 do
   partial_result="address=/.$line/127.0.0.1\n"
