@@ -22,6 +22,12 @@ if [ "$UID" -ne 0 ]; then
   exit 1
 fi
 
+if [ ! -f settings.json ]; then
+  echo '[error] sns_stopper requires "settings.json".'
+  echo '        create "settings.json" from "settings.json.tmp"'
+  exit 1
+fi
+
 if [ $# != 1 -a $# != 2 ]; then
   echo 'Usage  : ./sns_stopper <forbid or permit> [permit minutes]'
   echo 'example: ./sns_stopper permit 10'
