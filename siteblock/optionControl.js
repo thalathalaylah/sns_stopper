@@ -6,16 +6,17 @@ function toBoolean(booleanStr) {
   return booleanStr.toLowerCase() === "true";
 }
 
-function readDomains() {
-  return fs.readFileSync(path.resolve('../target_domains'), {encoding: 'utf8'});
-}
-
-function readExtensionUrl() {
-  return fs.readFileSync(path.resolve('./extension_url'), {encoding: 'utf8'});
+function convertToText(domains) {
+  let text = '';
+  for(let domain of domains) {
+    text = text + domain + '\\n'
+  }
+  return text;
 }
 
 async function example(forbid) {
   let client;
+  let settings = require('../settings.json');
   try {
     // connect to endpoint
     client = await CDP();
@@ -28,10 +29,10 @@ async function example(forbid) {
     // enable events then start!
     await Network.enable();
     await Page.enable();
-    await Page.navigate({url: readExtensionUrl().replace(/\n/g, '')});
+    await Page.navigate({url: settings.extensionOptionUrl});
     await Page.loadEventFired();
 
-    let domains = forbid ? '' : readDomains().replace(/\n/g, '\\n');
+    let domains = forbid ? convertToText(settings.targetDomains) : '';
     console.log(domains);
 
     await Runtime.evaluate({expression: 'document.querySelector(\'#rules\').value = \'' + domains + '\'; save_options();'});
