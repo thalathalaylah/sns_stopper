@@ -5,7 +5,7 @@ if [ ! -d /etc/resolver ]; then
   sudo mkdir /etc/resolver
 fi
 
-cat ${SCRIPTPATH}/../target_domains | while read domain
+cat ${SCRIPTPATH}/../settings.json | jq -r .targetDomains[] | while read domain
 do
   sudo sh -c "echo \"nameserver 127.0.0.1\" > /etc/resolver/$domain"
 done
