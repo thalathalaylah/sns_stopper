@@ -2,16 +2,19 @@
 
 init () {
   sh dnsmasq/init.sh
+  sh siteblock/init.sh
 }
 
 forbid () {
   sh dnsmasq/forbid.sh
   sh app/forbid.sh
+  node siteblock/optionControl.js true
 }
 
 permit () {
   sh dnsmasq/permit.sh
   sh app/permit.sh
+  node siteblock/optionControl.js false
 }
 
 if [ "$UID" -ne 0 ]; then

@@ -33,7 +33,6 @@ async function example(forbid) {
     await Page.loadEventFired();
 
     let domains = forbid ? convertToText(settings.targetDomains) : '';
-    console.log(domains);
 
     await Runtime.evaluate({expression: 'document.querySelector(\'#rules\').value = \'' + domains + '\'; save_options();'});
   } catch (err) {
