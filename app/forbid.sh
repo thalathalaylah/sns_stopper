@@ -2,7 +2,7 @@
 
 SCRIPTPATH=$(dirname $0)
 
-cat ${SCRIPTPATH}/apps | while read app
+cat ${SCRIPTPATH}/../settings.json | jq -r .apps[] | while read app
 do
   killall $app
 done
