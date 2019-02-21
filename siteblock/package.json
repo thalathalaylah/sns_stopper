@@ -1,0 +1,15 @@
+{
+  "name": "extension-control",
+  "version": "1.0.0",
+  "description": "",
+  "main": "optionControl.js",
+  "dependencies": {
+    "chrome-remote-interface": "^0.27.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "thalathalaylah",
+  "license": "ISC"
+}
