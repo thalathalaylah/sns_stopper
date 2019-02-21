@@ -21,7 +21,7 @@ async function example(forbid) {
     // connect to endpoint
     client = await CDP();
     // extract domains
-    const {Network, Page, DOM, Runtime} = client;
+    const {Network, Page, Runtime} = client;
     // setup handlers
     Network.requestWillBeSent((params) => {
       // console.log(params.request.url);
@@ -29,12 +29,14 @@ async function example(forbid) {
     // enable events then start!
     await Network.enable();
     await Page.enable();
+
     await Page.navigate({url: settings.extensionOptionUrl});
     await Page.loadEventFired();
 
     let domains = forbid ? convertToText(settings.targetDomains) : '';
 
     await Runtime.evaluate({expression: 'document.querySelector(\'#rules\').value = \'' + domains + '\'; save_options();'});
+    await Runtime.evaluate({expression: 'window.history.back(-1)'});
   } catch (err) {
     console.error(err);
   } finally {
