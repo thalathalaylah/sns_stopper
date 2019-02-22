@@ -37,7 +37,9 @@ if [ $# != 1 -a $# != 2 ]; then
   exit 0
 fi
 
-if [ $1 = "forbid" ]; then
+if [ $1 = "init" ]; then
+  init
+elif [ $1 = "forbid" ]; then
   if [ $# != 2 ]; then
     forbid
   else
